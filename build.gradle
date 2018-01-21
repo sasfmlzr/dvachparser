@@ -15,7 +15,7 @@ sourceSets {
 }
 jar {
     manifest {
-       // attributes 'Main-Class': 'com.fomenko.vkbot.VkBot'
+        attributes 'Main-Class': 'com.fomenko.webmplayer.ConsoleMap'
     }
 }
 compileJava.options.encoding = 'UTF-8'
