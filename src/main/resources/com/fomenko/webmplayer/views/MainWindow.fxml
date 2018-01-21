@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.canvas.*?>
+<?import javafx.scene.web.*?>
+<?import javafx.scene.media.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="558.0" prefWidth="890.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.fomenko.webmplayer.controller.MainWindowController">
+   <children>
+      <Button fx:id="back" layoutX="129.0" layoutY="472.0" mnemonicParsing="false" onAction="#setBackVideo" text="Назад" />
+      <Button fx:id="next" layoutX="368.0" layoutY="472.0" mnemonicParsing="false" onAction="#setNextVideo" text="Далее" />
+      <Button fx:id="download" layoutX="568.0" layoutY="472.0" mnemonicParsing="false" onAction="#downloadVideo" text="Скачать" />
+      <MediaView fx:id="mediaView" fitHeight="200.0" fitWidth="200.0" layoutX="628.0" layoutY="54.0" />
+      <WebView fx:id="embeddedWV" layoutX="62.0" layoutY="41.0" prefHeight="297.0" prefWidth="132.0" />
+      <Canvas fx:id="canvas" height="303.0" layoutX="192.0" layoutY="36.0" width="436.0" />
+      <Button layoutX="231.0" layoutY="472.0" mnemonicParsing="false" onAction="#playVideo" text="Play" />
+   </children>
+</AnchorPane>
