@@ -27,13 +27,16 @@ public final class ParseDvach extends Dvach {
         for (int i=0;i<=threadsList.size()-1;i++){
             String current_thread = "https://2ch.hk/"+board+"/res/"+threadsList.get(i)+".json";
             parser = new JsonParser();
-            JsonArray pItem = parser.parse(super.httpOperation().getRequest(current_thread)).getAsJsonObject().getAsJsonArray("threads").get(0).
+            String request=super.httpOperation().getRequest(current_thread);
+            if (!request.equals("404")){
+            JsonArray pItem = parser.parse(request).getAsJsonObject().getAsJsonArray("threads").get(0).
                     getAsJsonObject().getAsJsonArray("posts");
             for (JsonElement videoFilesPath : pItem) {
                 JsonArray videoFilePath = videoFilesPath.getAsJsonObject().get("files").getAsJsonArray();
                 if (videoFilePath.size()>0){
                     listLinkVideo.add("https://2ch.hk"+videoFilePath.get(0).getAsJsonObject().get("path").getAsString() );
                 }
+            }
             }
         }
         parser=null;
