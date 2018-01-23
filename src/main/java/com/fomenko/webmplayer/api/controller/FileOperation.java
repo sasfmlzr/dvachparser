@@ -72,6 +72,10 @@ public final class FileOperation extends Dvach {
     }
 
     public boolean fileOpen(String nameBoard) {
+        File folder = new File( "temp");
+        if (!folder.exists()) {
+            folder.mkdir();
+        }
         String pathName = "temp/"+nameBoard+".txt";
         File file = new File(pathName);
         if (file.exists()){
