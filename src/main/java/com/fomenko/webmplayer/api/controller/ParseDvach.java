@@ -44,7 +44,7 @@ public final class ParseDvach extends Dvach {
     public ArrayList<String> findDownloadedVideo(ArrayList<String> downloadLinkListVideo, String board){
         ArrayList<String> result = new ArrayList<>();
         ArrayList<String> tempLink;
-        if (super.fileOperation().fileOpen(board)){
+        super.fileOperation().fileOpen(board);
             tempLink = super.fileOperation().fileOpenToFind(board);
             boolean add=false;
             for (int i=0; i<=downloadLinkListVideo.size()-1; i++){
@@ -64,7 +64,7 @@ public final class ParseDvach extends Dvach {
                 result.add(downloadLinkListVideo.get(i));
             }
             super.fileOperation().tempFileSave(result,board);
-        }
+
         return result;
     }
 
