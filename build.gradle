@@ -36,3 +36,14 @@ task execute(type:JavaExec) {
     main = 'com.fomenko.webmplayer.Test'
     classpath = sourceSets.main.runtimeClasspath
 }
+
+task fatJar(type: Jar) {
+    manifest {
+        attributes 'Implementation-Title': 'Gradle Jar File Example',
+                'Implementation-Version': version,
+                'Main-Class': 'com.fomenko.webmplayer.ConsoleMap'
+    }
+    baseName = project.name + '-all'
+    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+    with jar
+}
