@@ -34,7 +34,7 @@ public class ConsoleMap {
         ArrayList<String> result = dvach.parseDvach().findDownloadedVideo(listLinkVideo, board);
 
         System.out.println("Получили исключающие треды");
-        dvach.fileOperation().fileSave(result);
+        dvach.fileOperation().fileSave(result, "video");
 
         System.out.println("Загрузили в файл результат");
     }

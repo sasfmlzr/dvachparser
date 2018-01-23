@@ -4,6 +4,7 @@ import com.fomenko.webmplayer.api.Dvach;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Objects;
 
 public final class FileOperation extends Dvach {
 
@@ -27,7 +28,30 @@ public final class FileOperation extends Dvach {
         }
     }
 
+    public boolean fileSave(ArrayList<String> list, String typeFiles){
+        try(FileWriter writer = new FileWriter("files.txt", true))
+        {
+            // запись всей строки
+            StringBuilder text = new StringBuilder();
+            for (int countMessages=0; countMessages<=list.size()-1;countMessages++){
+                for(String typeFile : Objects.requireNonNull(super.dvachModel().getFilterFile(typeFiles)))
+                if (list.get(countMessages).contains(typeFile))
+                text.append(list.get(countMessages)).append("\r\n");
+            }
+            writer.write(text.toString());
+            // запись по символам
+            writer.append('\n');
+            writer.flush();
+            return true;
+        }
+        catch(IOException ex){
+            System.out.println(ex.getMessage());
+            return false;
+        }
+    }
+
     public boolean tempFileSave(ArrayList<String> list, String board){
+
         String pathName = "temp/"+board+".txt";
         try(FileWriter writer = new FileWriter(pathName, true))
         {
