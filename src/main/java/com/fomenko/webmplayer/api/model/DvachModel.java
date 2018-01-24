@@ -2,7 +2,11 @@ package com.fomenko.webmplayer.api.model;
 
 import com.fomenko.webmplayer.api.Dvach;
 
-public final class DvachModel extends Dvach {
+public final class DvachModel extends AbstractModel {
+
+    public DvachModel(Dvach dvach) {
+        super(dvach);
+    }
 
     public enum boardEnum{
         b(),
@@ -70,7 +74,15 @@ public final class DvachModel extends Dvach {
         }
     }
 
+    private String cookie;
 
+    public String getCookie() {
+        return cookie;
+    }
+
+    public void setCookie(String cookie) {
+        this.cookie = cookie;
+    }
 
     public String getBoard(String board){
         try {

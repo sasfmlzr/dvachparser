@@ -8,8 +8,13 @@ import com.google.gson.JsonParser;
 
 import java.util.ArrayList;
 
-public final class ParseDvach extends Dvach {
+public final class ParseDvach extends AbstractController {
     private JsonParser parser;
+
+    public ParseDvach(Dvach dvach) {
+        super(dvach);
+    }
+
     public  ArrayList<String> getNumThread(String response){
         parser = new JsonParser();
         JsonObject mainObjects = parser.parse(response).getAsJsonObject();
@@ -27,7 +32,13 @@ public final class ParseDvach extends Dvach {
         for (int i=0;i<=threadsList.size()-1;i++){
             String current_thread = "https://2ch.hk/"+board+"/res/"+threadsList.get(i)+".json";
             parser = new JsonParser();
-            String request=super.httpOperation().getRequest(current_thread);
+            String request;
+
+            if (super.getDvach().getDvachModel().getCookie()==null){
+                request=super.getDvach().httpOperation().getRequest(current_thread);
+            }else {
+                request=super.getDvach().httpOperation().getRequest(current_thread, super.getDvach().getDvachModel().getCookie());
+            }
             if (!request.equals("404")){
             JsonArray pItem = parser.parse(request).getAsJsonObject().getAsJsonArray("threads").get(0).
                     getAsJsonObject().getAsJsonArray("posts");
@@ -47,8 +58,8 @@ public final class ParseDvach extends Dvach {
     public ArrayList<String> findDownloadedVideo(ArrayList<String> downloadLinkListVideo, String board){
         ArrayList<String> result = new ArrayList<>();
         ArrayList<String> tempLink;
-        super.fileOperation().fileOpen(board);
-            tempLink = super.fileOperation().fileOpenToFind(board);
+        super.getDvach().fileOperation().fileOpen(board);
+            tempLink = super.getDvach().fileOperation().fileOpenToFind(board);
             boolean add=false;
             for (int i=0; i<=downloadLinkListVideo.size()-1; i++){
                 add=false;
@@ -66,7 +77,7 @@ public final class ParseDvach extends Dvach {
                 if (!add)
                 result.add(downloadLinkListVideo.get(i));
             }
-            super.fileOperation().tempFileSave(result,board);
+        super.getDvach().fileOperation().tempFileSave(result,board);
 
         return result;
     }
