@@ -5,7 +5,56 @@ import com.fomenko.webmplayer.api.Dvach;
 public final class DvachModel extends Dvach {
 
     public enum boardEnum{
-        b,fet,hc,e,a,fur, gg
+        b(),
+        vg,
+        news,
+        po,
+        fag,
+        sex,
+        v,
+        soc,
+        a,
+        hw,
+        mov,
+        au,
+        mobi,
+        wm,
+        pr,
+        cc,
+        s,
+        cq,
+        wrk,
+        hc,
+        fa,
+        me,
+        ga,
+        fet,
+        fiz,
+        sp,
+        gsg,
+        tv,
+        mus,
+        mu,
+        ma,
+        rf,
+        tes,
+        vn,
+        e,
+        ftb,
+        d,
+        mlp,
+        psy,
+        c,
+        wh,
+        sn,
+        pa,
+        biz,
+        fg,
+        diy,
+        un,
+//////////////////////////
+        fur,        //
+        gg          //
     }
 
     public enum filterFile {
