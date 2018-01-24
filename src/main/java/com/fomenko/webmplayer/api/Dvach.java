@@ -6,10 +6,19 @@ import com.fomenko.webmplayer.api.controller.ParseDvach;
 import com.fomenko.webmplayer.api.model.DvachModel;
 
 public class Dvach {
-    public Dvach(){}
-    public ParseDvach parseDvach(){return new ParseDvach();}
-    public HttpOperation httpOperation(){return new HttpOperation();}
-    public FileOperation fileOperation(){return new FileOperation();}
+    public Dvach(){
+        dvachModel= new DvachModel(this);
+    //    dvachModel = new DvachModel();
+    }
+    public ParseDvach parseDvach(){return new ParseDvach(this);}
+    public HttpOperation httpOperation(){return new HttpOperation(this);}
+    public FileOperation fileOperation(){return new FileOperation(this);}
+    private DvachModel dvachModel;
 
-    public DvachModel dvachModel(){return new DvachModel();}
+    public DvachModel getDvachModel() {
+        return dvachModel;
+    }
+/*  public DvachModel getDvachModel() {
+        return dvachModel;
+    }*/
 }

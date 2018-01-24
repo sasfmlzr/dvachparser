@@ -6,7 +6,11 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.Objects;
 
-public final class FileOperation extends Dvach {
+public final class FileOperation extends AbstractController {
+
+    public FileOperation(Dvach dvach) {
+        super(dvach);
+    }
 
     public boolean fileSave(ArrayList<String> list){
         try(FileWriter writer = new FileWriter("files.txt", true))
@@ -34,7 +38,7 @@ public final class FileOperation extends Dvach {
             // запись всей строки
             StringBuilder text = new StringBuilder();
             for (int countMessages=0; countMessages<=list.size()-1;countMessages++){
-                for(String typeFile : Objects.requireNonNull(super.dvachModel().getFilterFile(typeFiles)))
+                for(String typeFile : Objects.requireNonNull(super.getDvach().getDvachModel().getFilterFile(typeFiles)))
                 if (list.get(countMessages).contains(typeFile))
                 text.append(list.get(countMessages)).append("\r\n");
             }

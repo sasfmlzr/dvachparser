@@ -8,7 +8,11 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 @SuppressWarnings("Duplicates")
-public final class HttpOperation extends Dvach {
+public final class HttpOperation extends AbstractController {
+
+    public HttpOperation(Dvach dvach) {
+        super(dvach);
+    }
 
     public String getRequest(String url) {
         URL obj;
