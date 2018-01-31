@@ -7,6 +7,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public final class ParseDvach extends AbstractController {
     private JsonParser parser;
@@ -33,7 +34,6 @@ public final class ParseDvach extends AbstractController {
             String current_thread = "https://2ch.hk/"+board+"/res/"+threadsList.get(i)+".json";
             parser = new JsonParser();
             String request;
-
             if (super.getDvach().getDvachModel().getCookie()==null){
                 request=super.getDvach().httpOperation().getRequest(current_thread);
             }else {
@@ -81,6 +81,39 @@ public final class ParseDvach extends AbstractController {
 
         return result;
     }
+
+
+
+    public HashMap<String, String> getListLinkVideoMd5(ArrayList<String> threadsList, String board){
+        HashMap<String, String> listLinkVideo = new HashMap<>();
+        for (int i=0;i<=threadsList.size()-1;i++){
+            String current_thread = "https://2ch.hk/"+board+"/res/"+threadsList.get(i)+".json";
+            parser = new JsonParser();
+            String request;
+            if (super.getDvach().getDvachModel().getCookie()==null){
+                request=super.getDvach().httpOperation().getRequest(current_thread);
+            }else {
+                request=super.getDvach().httpOperation().getRequest(current_thread, super.getDvach().getDvachModel().getCookie());
+            }
+            if (!request.equals("404")){
+                JsonArray pItem = parser.parse(request).getAsJsonObject().getAsJsonArray("threads").get(0).
+                        getAsJsonObject().getAsJsonArray("posts");
+                for (JsonElement videoFilesPath : pItem) {
+                    JsonArray videoFilePath = videoFilesPath.getAsJsonObject().get("files").getAsJsonArray();
+                    if (videoFilePath.size()>0){
+                        if (videoFilePath.get(0).getAsJsonObject().has("md5"))
+                        listLinkVideo.put("https://2ch.hk"+videoFilePath.get(0).getAsJsonObject().get("path").getAsString(),videoFilePath.get(0).getAsJsonObject().get("md5").getAsString() );
+                    }
+                }
+            }
+        }
+        parser=null;
+        return listLinkVideo;
+    }
+
+
+//////test
+
 
 
 
