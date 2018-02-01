@@ -1,9 +1,13 @@
 package com.fomenko.webmplayer.api.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fomenko.webmplayer.api.Dvach;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Objects;
 
 public final class FileOperation extends AbstractController {
@@ -32,7 +36,7 @@ public final class FileOperation extends AbstractController {
         }
     }
 
-    public boolean fileSave(ArrayList<String> list, String typeFiles){
+    public boolean fileSave(List<String> list, String typeFiles){
         try(FileWriter writer = new FileWriter("files.txt", true))
         {
             // запись всей строки
@@ -53,6 +57,26 @@ public final class FileOperation extends AbstractController {
             return false;
         }
     }
+
+    public boolean tempFileSave(HashMap<String,String> hashMap, String board){
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.enable(SerializationFeature.INDENT_OUTPUT);
+
+        try {
+            // Здесь происходит самая главная магия
+            HashMap<String,String> jsonMap = fileOpenToFindJson(board);
+            jsonMap.putAll(hashMap);
+            mapper.writeValue(new File("temp/"+board+".json"), jsonMap);
+            System.out.println("Запись в " + "temp/"+board+".json" + "успешна");
+        } catch(IOException exc) {
+            exc.printStackTrace();
+            return false;
+        }
+        return true;
+    }
+
+
+
 
     public boolean tempFileSave(ArrayList<String> list, String board){
 
@@ -98,6 +122,29 @@ public final class FileOperation extends AbstractController {
         }
     }
 
+    public boolean fileOpenJson(String nameBoard) {
+        File folder = new File( "temp");
+        if (!folder.exists()) {
+            folder.mkdir();
+        }
+        String pathName = "temp/"+nameBoard+".json";
+        File file = new File(pathName);
+        if (file.exists()){
+            System.out.println("Файл существует");
+            return true;
+        }else {
+            System.out.println("Файла нет");
+            try {
+                FileWriter writer=new FileWriter(pathName, false);
+                //writer.write("");
+                writer.flush();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return false;
+        }
+    }
+
     public ArrayList<String> fileOpenToFind(String nameBoard) {
         String pathName = "temp/"+nameBoard+".txt";
         File fileTXT = new File(pathName);
@@ -113,6 +160,21 @@ public final class FileOperation extends AbstractController {
                 e.printStackTrace();
             }
             return link;
+    }
+
+    public HashMap<String,String> fileOpenToFindJson(String nameBoard) {
+        String pathName = "temp/"+nameBoard+".json";
+
+        HashMap<String,String> link = new HashMap<>();
+        ObjectMapper mapper = new ObjectMapper();
+        // Для вывода с отступами
+        mapper.enable(SerializationFeature.INDENT_OUTPUT);
+        try {
+            link = mapper.readValue(new File(pathName), HashMap.class);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return link;
     }
 
 

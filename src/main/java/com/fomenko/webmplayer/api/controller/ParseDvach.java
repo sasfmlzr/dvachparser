@@ -8,6 +8,7 @@ import com.google.gson.JsonParser;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 public final class ParseDvach extends AbstractController {
     private JsonParser parser;
@@ -64,25 +65,44 @@ public final class ParseDvach extends AbstractController {
             for (int i=0; i<=downloadLinkListVideo.size()-1; i++){
                 add=false;
                 for (int j=0; j<=tempLink.size()-1;j++){
-
                     if (downloadLinkListVideo.get(i).equals(tempLink.get(j)))
+                    {
+                        add=true;
+                    }
+                    if (add)
+                        break;
+                }
+                if (!add)
+                result.add(downloadLinkListVideo.get(i));
+            }
+        super.getDvach().fileOperation().tempFileSave(result,board);
+        return result;
+    }
+
+    public HashMap<String, String> findDownloadedVideo(HashMap<String, String> downloadLinkListVideo, String board){
+        HashMap<String, String> result = new HashMap<>();
+        HashMap<String, String> tempLink;
+        super.getDvach().fileOperation().fileOpenJson(board);
+        tempLink = super.getDvach().fileOperation().fileOpenToFindJson(board);
+        boolean add=false;
+
+            for (Map.Entry<String, String> entryDownload: downloadLinkListVideo.entrySet()){
+                add=false;
+                for (Map.Entry<String, String> entryTempLink: tempLink.entrySet()) {
+                    if (entryDownload.getKey().equals(entryTempLink.getKey()))
                     {
                         add=true;
                     }
 
                     if (add)
                         break;
-
                 }
                 if (!add)
-                result.add(downloadLinkListVideo.get(i));
+                    result.put(entryDownload.getKey(),entryDownload.getValue());
             }
         super.getDvach().fileOperation().tempFileSave(result,board);
-
         return result;
     }
-
-
 
     public HashMap<String, String> getListLinkVideoMd5(ArrayList<String> threadsList, String board){
         HashMap<String, String> listLinkVideo = new HashMap<>();
