@@ -35,8 +35,8 @@ public final class HttpOperation extends AbstractController {
             return "404";
 
         } catch (IOException e) {
+            getDvach().log.error("Итератор сбился");
             e.printStackTrace();
-            System.out.println("Итератор сбился");
         }
         return "Ошибка запроса";
     }
@@ -61,8 +61,8 @@ public final class HttpOperation extends AbstractController {
             return "404";
 
         } catch (IOException e) {
+            getDvach().log.error("Итератор сбился");
             e.printStackTrace();
-            System.out.println("Итератор сбился");
         }
         return "Ошибка запроса";
     }

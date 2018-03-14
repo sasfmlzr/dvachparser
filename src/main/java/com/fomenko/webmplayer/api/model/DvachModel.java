@@ -88,7 +88,7 @@ public final class DvachModel extends AbstractModel {
         try {
             return boardEnum.valueOf(board).toString();
         }catch (IllegalArgumentException e) {
-            System.out.println("Такой борды нет");
+            getDvach().log.error("Такой борды нет");
         }
        return null;
     }
@@ -106,7 +106,7 @@ public final class DvachModel extends AbstractModel {
         try {
             return filterFile.valueOf(typeFile).getTypeFiles();
         }catch (IllegalArgumentException e) {
-            System.out.println("Такого типа файлов нет");
+            getDvach().log.error("Такого типа файлов нет");
         }
         return null;
     }

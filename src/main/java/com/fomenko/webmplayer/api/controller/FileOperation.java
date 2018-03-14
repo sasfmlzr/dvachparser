@@ -36,7 +36,7 @@ public final class FileOperation extends AbstractController {
         }
     }
 
-    public boolean fileSave(List<String> list, String typeFiles){
+    public void fileSave(List<String> list, String typeFiles){
         try(FileWriter writer = new FileWriter("files.txt", true))
         {
             // запись всей строки
@@ -50,15 +50,13 @@ public final class FileOperation extends AbstractController {
             // запись по символам
             writer.append('\n');
             writer.flush();
-            return true;
         }
         catch(IOException ex){
             System.out.println(ex.getMessage());
-            return false;
         }
     }
 
-    public boolean tempFileSave(HashMap<String,String> hashMap, String board){
+    public void tempFileSave(HashMap<String,String> hashMap, String board){
         ObjectMapper mapper = new ObjectMapper();
         mapper.enable(SerializationFeature.INDENT_OUTPUT);
 
@@ -67,18 +65,16 @@ public final class FileOperation extends AbstractController {
             HashMap<String,String> jsonMap = fileOpenToFindJson(board);
             jsonMap.putAll(hashMap);
             mapper.writeValue(new File("temp/"+board+".json"), jsonMap);
-            System.out.println("Запись в " + "temp/"+board+".json" + "успешна");
+            getDvach().log.info("Запись в " + "temp/"+board+".json " + "успешна");
         } catch(IOException exc) {
             exc.printStackTrace();
-            return false;
         }
-        return true;
     }
 
 
 
 
-    public boolean tempFileSave(ArrayList<String> list, String board){
+    public void tempFileSave(ArrayList<String> list, String board){
 
         String pathName = "temp/"+board+".txt";
         try(FileWriter writer = new FileWriter(pathName, true))
@@ -91,15 +87,13 @@ public final class FileOperation extends AbstractController {
             writer.append('\n');
             writer.flush();
             System.out.println("Запись в " + pathName + "успешна");
-            return true;
         }
         catch(IOException ex){
             System.out.println(ex.getMessage());
-            return false;
         }
     }
 
-    public boolean fileOpen(String nameBoard) {
+    public void fileOpen(String nameBoard) {
         File folder = new File( "temp");
         if (!folder.exists()) {
             folder.mkdir();
@@ -108,7 +102,6 @@ public final class FileOperation extends AbstractController {
         File file = new File(pathName);
         if (file.exists()){
             System.out.println("Файл существует");
-            return true;
         }else {
             System.out.println("Файла нет");
             try {
@@ -118,11 +111,10 @@ public final class FileOperation extends AbstractController {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            return false;
         }
     }
 
-    public boolean fileOpenJson(String nameBoard) {
+    public void fileOpenJson(String nameBoard) {
         File folder = new File( "temp");
         if (!folder.exists()) {
             folder.mkdir();
@@ -130,10 +122,9 @@ public final class FileOperation extends AbstractController {
         String pathName = "temp/"+nameBoard+".json";
         File file = new File(pathName);
         if (file.exists()){
-            System.out.println("Файл существует");
-            return true;
+            getDvach().log.info("Файл существует");
         }else {
-            System.out.println("Файла нет");
+            getDvach().log.info("Файла нет");
             try {
                 FileWriter writer=new FileWriter(pathName, false);
                 //writer.write("");
@@ -141,7 +132,6 @@ public final class FileOperation extends AbstractController {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            return false;
         }
     }
 
@@ -157,6 +147,7 @@ public final class FileOperation extends AbstractController {
                     link.add(strLine);
                 }
             } catch (IOException e) {
+
                 e.printStackTrace();
             }
             return link;
