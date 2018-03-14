@@ -1,12 +1,18 @@
 package com.fomenko.webmplayer.api.controller;
 
 import com.fomenko.webmplayer.api.Dvach;
+import com.fomenko.webmplayer.api.model.UrlDvach;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLConnection;
+import java.nio.channels.Channels;
+import java.nio.channels.ReadableByteChannel;
+import java.util.ArrayList;
+import java.util.List;
+
 @SuppressWarnings("Duplicates")
 public final class HttpOperation extends AbstractController {
 
@@ -67,4 +73,24 @@ public final class HttpOperation extends AbstractController {
         return "Ошибка запроса";
     }
 
+    public  void downloadFromTXT() throws IOException {
+
+        List<UrlDvach> listUrlDvach;
+        listUrlDvach = getDvach().fileOperation().loadUrlFromFile();
+        getDvach().log.info("Всего файлов:" + listUrlDvach.size());
+        int count = 0;
+        for (UrlDvach urlDvach:listUrlDvach){
+            count++;
+            getDvach().log.info("Файл "+urlDvach.getFile() + " №" + count + " начал загрузку");
+            URL website = urlDvach.getUrl();
+            URLConnection urlConnection = website.openConnection();
+            urlConnection.setRequestProperty("Cookie",getDvach().getDvachModel().getCookie());
+            urlConnection.connect();
+            Object s =urlConnection.getContent();
+            ReadableByteChannel rbc = Channels.newChannel((InputStream) s);
+            FileOutputStream fos = new FileOutputStream("downloaded/"+urlDvach.getFile());
+            fos.getChannel().transferFrom(rbc, 0, Long.MAX_VALUE);
+            getDvach().log.info("Успешно");
+        }
+    }
 }

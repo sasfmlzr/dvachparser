@@ -3,8 +3,10 @@ package com.fomenko.webmplayer.api.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fomenko.webmplayer.api.Dvach;
+import com.fomenko.webmplayer.api.model.UrlDvach;
 
 import java.io.*;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -168,6 +170,21 @@ public final class FileOperation extends AbstractController {
         return link;
     }
 
+    public List<UrlDvach> loadUrlFromFile(){
+        List<UrlDvach> urlDvachList = new ArrayList<>();
+        File fileTXT = new File("files.txt");
+        String strLine;
+        try {
+            BufferedReader br = new BufferedReader
+                    (new InputStreamReader(new FileInputStream(fileTXT), "Windows-1251"));
+            while ( (strLine=br.readLine())!=null) {
+                urlDvachList.add(new UrlDvach(strLine));
+            }
+        } catch (IOException e) {
 
+            e.printStackTrace();
+        }
+        return urlDvachList;
+    }
 
 }

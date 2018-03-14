@@ -15,6 +15,11 @@ public class Dvach {
         dvachModel= new DvachModel(this);
     //    dvachModel = new DvachModel();
     }
+    public Dvach(String cookie){
+        dvachModel= new DvachModel(this);
+        dvachModel.setCookie(cookie);
+        //    dvachModel = new DvachModel();
+    }
     public org.apache.logging.log4j.Logger  log = LogManager.getLogger("name");
     public ParseDvach parseDvach(){return new ParseDvach(this);}
     public HttpOperation httpOperation(){return new HttpOperation(this);}
@@ -45,5 +50,11 @@ public class Dvach {
         this.fileOperation().fileSave(new ArrayList<>(result.keySet()), typeFileSave); // video, image, all
         log.info("Загрузили в файл результат");
         System.out.println("Загрузили в файл результат");
+    }
+
+
+    public void downloadDvach(){
+
+        System.out.println();
     }
 }
