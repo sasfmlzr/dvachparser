@@ -86,8 +86,9 @@ public final class HttpOperation extends AbstractController {
             URLConnection urlConnection = website.openConnection();
             urlConnection.setRequestProperty("Cookie",getDvach().getDvachModel().getCookie());
             urlConnection.connect();
-            Object s =urlConnection.getContent();
-            ReadableByteChannel rbc = Channels.newChannel((InputStream) s);
+           // Object s =urlConnection.getContent();
+            InputStream s =urlConnection.getInputStream();
+            ReadableByteChannel rbc = Channels.newChannel(s);
             FileOutputStream fos = new FileOutputStream("downloaded/"+urlDvach.getFile());
             fos.getChannel().transferFrom(rbc, 0, Long.MAX_VALUE);
             getDvach().log.info("Успешно");
