@@ -28,7 +28,7 @@ public final class FileOperation extends AbstractController {
             }
             writer.write(text.toString());
             // запись по символам
-            writer.append('\n');
+            //writer.append('\n');
             writer.flush();
             return true;
         }
@@ -184,7 +184,14 @@ public final class FileOperation extends AbstractController {
 
             e.printStackTrace();
         }
-        return urlDvachList;
+        List<UrlDvach> result= new ArrayList<>();
+        for (UrlDvach urlDvach:urlDvachList){
+            if (urlDvach.getUrl()!=null) {
+                result.add(urlDvach);
+            }
+        }
+
+        return result;
     }
 
 }

@@ -19,7 +19,6 @@ public class UrlDvach {
             file = temp[4];
         } catch (MalformedURLException e) {
             System.out.println("неверная ссылка - " + urlCurrent);
-
         }
 
     }
