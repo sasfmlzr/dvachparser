@@ -90,7 +90,19 @@ public final class HttpOperation extends AbstractController {
                 // Object s =urlConnection.getContent();
                 InputStream s =urlConnection.getInputStream();
                 ReadableByteChannel rbc = Channels.newChannel(s);
-                FileOutputStream fos = new FileOutputStream("downloaded/"+urlDvach.getFile());
+                File folder = new File( "downloaded");
+                if (!folder.exists()) {
+                    folder.mkdir();
+                }
+                folder = new File( "downloaded/"+urlDvach.getBoard());
+                if (!folder.exists()) {
+                    folder.mkdir();
+                }
+                folder = new File( "downloaded/"+urlDvach.getBoard()+"/"+urlDvach.getType());
+                if (!folder.exists()) {
+                    folder.mkdir();
+                }
+                FileOutputStream fos = new FileOutputStream("downloaded/"+urlDvach.getBoard()+"/"+urlDvach.getType()+"/"+urlDvach.getFile());
                 fos.getChannel().transferFrom(rbc, 0, Long.MAX_VALUE);
                 getDvach().log.info("Успешно");
             } catch (IOException e) {
