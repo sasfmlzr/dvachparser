@@ -53,14 +53,23 @@ public final class FileOperation extends AbstractController {
         }
     }
 
-    public void tempFileSave(HashMap<String, String> hashMap, String board) {
+    public void tempFileSave(HashMap<String, String> hashMap, String board, String typeFiles) {
         ObjectMapper mapper = new ObjectMapper();
         mapper.enable(SerializationFeature.INDENT_OUTPUT);
 
         try {
             // Здесь происходит самая главная магия
+            HashMap<String, String> resultMap = new HashMap<>();
             HashMap<String, String> jsonMap = fileOpenToFindJson(board);
-            jsonMap.putAll(hashMap);
+            for (String file : hashMap.keySet()) {
+                for (String typeFile : Objects.requireNonNull(super.getDvach().getDvachModel().getFilterFile(typeFiles))) {
+                    if (file.contains(typeFile)) {
+                        resultMap.put(file, hashMap.get(file));
+                    }
+                }
+            }
+
+            jsonMap.putAll(resultMap);
             mapper.writeValue(new File("temp/" + board + ".json"), jsonMap);
             getDvach().log.info("Запись в " + "temp/" + board + ".json " + "успешна");
         } catch (IOException exc) {
