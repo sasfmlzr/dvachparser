@@ -46,6 +46,7 @@ public final class HttpOperation extends AbstractController {
         }
         return "Ошибка запроса";
     }
+
     public String getRequest(String url, String cookie) {
         URL obj;
         try {

@@ -19,7 +19,13 @@ public final class ParseDvach extends AbstractController {
 
     public  ArrayList<String> getNumThread(String response){
         parser = new JsonParser();
-        JsonObject mainObjects = parser.parse(response).getAsJsonObject();
+        JsonObject mainObjects = new JsonObject();
+        try {
+            mainObjects = parser.parse(response).getAsJsonObject();
+        } catch (IllegalStateException e){
+            e.printStackTrace();
+        }
+
         ArrayList<String> threadsList= new ArrayList<>();
         JsonArray pItems = mainObjects.getAsJsonArray("threads");
         for (int i=0; i<=pItems.size()-1;i++){
@@ -54,7 +60,6 @@ public final class ParseDvach extends AbstractController {
         parser=null;
         return listLinkVideo;
     }
-
 
     public ArrayList<String> findDownloadedVideo(ArrayList<String> downloadLinkListVideo, String board){
         ArrayList<String> result = new ArrayList<>();
@@ -130,15 +135,4 @@ public final class ParseDvach extends AbstractController {
         parser=null;
         return listLinkVideo;
     }
-
-
-//////test
-
-
-
-
-
-
-
-
 }
